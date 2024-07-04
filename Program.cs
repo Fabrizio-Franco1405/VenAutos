@@ -188,6 +188,7 @@
                 var autoMasVendido = sucursal.ObtenerAutoMasVendido();
                 Console.WriteLine($"El auto más vendido en {sucursal.Nombre} es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un número de ventas de: {autoMasVendido.Ventas}");
             }
+            volver();
         }
 
         static void carroMasVendidoEnLaEmpresa()
@@ -196,6 +197,7 @@
             var todasLasSucursales = new TodasLasSucursales();
             var autoMasVendido = todasLasSucursales.autoMasVendidoDeLaEmpresa();
             Console.WriteLine($"El auto más vendido en la empresa es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un número de ventas de: {autoMasVendido.Ventas}");
+            volver();
         }
 
         static void vendedoresEnCadaSucursal()
@@ -213,6 +215,7 @@
             {
                 Console.WriteLine($"La cantidad de vendedores en {sucursal.Nombre} es de: {sucursal.vendedores()}");
             }
+            volver();
         }
 
         static void vendedoresEnLaEmpresa()
@@ -228,6 +231,7 @@
 
             int totalVendedores = sucursales.SelectMany(s => s.CarrosVendidos.Select(c => c.Vendedor)).Distinct().Count();
             Console.WriteLine($"El total de vendedores en la empresa es de: {totalVendedores}");
+            volver();
         }
 
         static void mayoresVendedoresEnCadaSucursal()
@@ -246,6 +250,7 @@
                 var mayorVendedor = sucursal.ObtenerMayorVendedor();
                 Console.WriteLine($"El mayor vendedor en {sucursal.Nombre} es: {mayorVendedor.Vendedor} con ventas de: {mayorVendedor.Ventas}");
             }
+            volver();
         }
 
         static void menoresVendedoresEnCadaSucursal()
@@ -264,6 +269,22 @@
                 var menorVendedor = sucursal.ObtenerMenorVendedor();
                 Console.WriteLine($"El menor vendedor en {sucursal.Nombre} es: {menorVendedor.Vendedor} con ventas de: {menorVendedor.Ventas}");
             }
+            volver();
         }
-    }
+
+		static void volver()
+		{
+			Console.Write("\n¿Desea Volver al menú de opciones? S/N: ");
+			char volver = char.Parse(Console.ReadLine());
+
+			if (char.ToUpper(volver) == 'S')
+			{
+				menu();
+			}
+			else
+			{
+				return;
+			}
+		}
+	}
 }
