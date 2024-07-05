@@ -6,7 +6,10 @@ namespace VenAutos
 {
     class Fabrizio_Enyell_Diego
     {
+        //Se crea el acumulador para definir todos los autos que manejan las sucursales
         static int totalCarros;
+        
+        //Se crea la lista predefinida de los autos que maneja venAutos
         public static List<Carros> CarrosDisponibles = new List<Carros>
         {
             new Carros() { Marca = "Volkswagen", Modelo = "Golf", Precio = 25000, Ventas = 50, Vendedor = "Alex Martinez", Sucursal = "Caracas" },
@@ -27,8 +30,10 @@ namespace VenAutos
             new Carros() { Marca = "Dodge", Modelo = "Hornet", Precio = 55000, Ventas = 16, Vendedor = "Juanito Alcachofa", Sucursal = "Merida" },
         };
 
+        //Se crea la clase Carros en donde se almacenaran los datos en distintas variables con los nombres de los atributos que están en la lista
         public class Carros
         {
+            //Se crean las funciones constructoras para poder almacenar los datos en variables con el nombre de los atributos de la lista global
             public string Marca { get; set; }
             public string Modelo { get; set; }
             public decimal Precio { get; set; }
@@ -39,10 +44,13 @@ namespace VenAutos
 
         public abstract class VenAutos
         {
+            //Se crea una clase abstracta debido a que al ser la clase de las sucursales no se modifican en todo el proceso del programa.
             public string Nombre { get; set; }
             public string Ubicacion { get; set; }
-            public abstract List<Carros> CarrosVendidos { get; }
 
+            //Se hace la lectura de los elementos dentro de la lista.
+            public abstract List<Carros> CarrosVendidos { get; }
+            
             public Carros ObtenerAutoMasVendido()
             {
                 return CarrosVendidos.OrderByDescending(c => c.Ventas).FirstOrDefault();
