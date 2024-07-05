@@ -46,12 +46,12 @@
 
             public Carros ObtenerMayorVendedor()
             {
-                return CarrosVendidos.OrderByDescending(c => c.Vendedor).LastOrDefault();
+                return CarrosVendidos.OrderByDescending(c => c.Ventas).FirstOrDefault();
             }
 
             public Carros ObtenerMenorVendedor()
             {
-                return CarrosVendidos.OrderByDescending(c => c.Vendedor).FirstOrDefault();
+                return CarrosVendidos.OrderByDescending(c => c.Ventas).LastOrDefault();
             }
 
             public int vendedores()
@@ -166,7 +166,13 @@
                 case 6:
                     menoresVendedoresEnCadaSucursal();
                     break;
-                default:
+                case 7:
+                    promedioVentasPorSucursal();
+                    break;
+                case 8:
+                    promedioGeneralVentasEmpresa();
+                    break;
+				default:
                     Console.WriteLine("\nSaliendo del sistema...");
                     return;
             }
@@ -186,7 +192,7 @@
             foreach (var sucursal in sucursales)
             {
                 var autoMasVendido = sucursal.ObtenerAutoMasVendido();
-                Console.WriteLine($"El auto más vendido en {sucursal.Nombre} es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un número de ventas de: {autoMasVendido.Ventas}");
+                Console.WriteLine($"El auto más vendido en {sucursal.Nombre} es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un total de: {autoMasVendido.Ventas} ventas.");
             }
             volver();
         }
@@ -196,7 +202,7 @@
             Console.Clear();
             var todasLasSucursales = new TodasLasSucursales();
             var autoMasVendido = todasLasSucursales.autoMasVendidoDeLaEmpresa();
-            Console.WriteLine($"El auto más vendido en la empresa es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un número de ventas de: {autoMasVendido.Ventas}");
+            Console.WriteLine($"El auto más vendido en la empresa es: {autoMasVendido.Marca} {autoMasVendido.Modelo} con un total de: {autoMasVendido.Ventas} ventas.");
             volver();
         }
 
@@ -213,7 +219,7 @@
 
             foreach (var sucursal in sucursales)
             {
-                Console.WriteLine($"La cantidad de vendedores en {sucursal.Nombre} es de: {sucursal.vendedores()}");
+                Console.WriteLine($"La cantidad de vendedores en {sucursal.Nombre} es de: {sucursal.vendedores()} vendedores.");
             }
             volver();
         }
@@ -230,7 +236,7 @@
             };
 
             int totalVendedores = sucursales.SelectMany(s => s.CarrosVendidos.Select(c => c.Vendedor)).Distinct().Count();
-            Console.WriteLine($"El total de vendedores en la empresa es de: {totalVendedores}");
+            Console.WriteLine($"El total de vendedores en la empresa es de: {totalVendedores} vendedores.");
             volver();
         }
 
@@ -248,7 +254,7 @@
             foreach (var sucursal in sucursales)
             {
                 var mayorVendedor = sucursal.ObtenerMayorVendedor();
-                Console.WriteLine($"El mayor vendedor en {sucursal.Nombre} es: {mayorVendedor.Vendedor} con ventas de: {mayorVendedor.Ventas}");
+                Console.WriteLine($"El mayor vendedor en {sucursal.Nombre} es: {mayorVendedor.Vendedor} con un total de: {mayorVendedor.Ventas} ventas.");
             }
             volver();
         }
@@ -267,10 +273,39 @@
             foreach (var sucursal in sucursales)
             {
                 var menorVendedor = sucursal.ObtenerMenorVendedor();
-                Console.WriteLine($"El menor vendedor en {sucursal.Nombre} es: {menorVendedor.Vendedor} con ventas de: {menorVendedor.Ventas}");
+                Console.WriteLine($"El menor vendedor en {sucursal.Nombre} es: {menorVendedor.Vendedor} con un total de: {menorVendedor.Ventas} ventas.");
             }
             volver();
         }
+
+		static void promedioVentasPorSucursal()
+		{
+			Console.Clear();
+			var sucursales = new List<VenAutos>
+	        {
+	        	new Sucursal_Caracas(),
+	        	new Sucursal_Maracaibo(),
+	        	new Sucursal_Barcelona(),
+	        	new Sucursal_Merida()
+	        };
+
+			foreach (var sucursal in sucursales)
+			{
+				var promedio = sucursal.CarrosVendidos.Average(c => c.Ventas);
+				Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
+			}
+			volver();
+		}
+
+		static void promedioGeneralVentasEmpresa()
+		{
+			Console.Clear();
+			var totalVentas = CarrosDisponibles.Sum(c => c.Ventas);
+			var totalCarros = CarrosDisponibles.Count;
+			var promedio = (double)totalVentas / totalCarros;
+			Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
+			volver();
+		}
 
 		static void volver()
 		{
