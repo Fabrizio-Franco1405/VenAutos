@@ -321,8 +321,8 @@ namespace VenAutos
 
             foreach (var sucursal in sucursales)
             {
-                var promedio = sucursal.CalcularPromedioVentas();
-                Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
+				var promedio = (int)Math.Round(sucursal.CarrosVendidos.Average(c => c.Ventas));
+				Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
             }
             volver();
         }
@@ -332,8 +332,8 @@ namespace VenAutos
             Console.Clear();
             var totalVentas = CarrosDisponibles.Sum(c => c.Ventas);
             var totalCarros = CarrosDisponibles.Count;
-            var promedio = (double)totalVentas / totalCarros;
-            Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
+			var promedio = (int)Math.Round((double)totalVentas / totalCarros);
+			Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
             volver();
         }
 
