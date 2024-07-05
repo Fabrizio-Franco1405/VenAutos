@@ -1,4 +1,8 @@
-﻿namespace VenAutos
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace VenAutos
 {
     class Fabrizio_Enyell_Diego
     {
@@ -51,12 +55,22 @@
 
             public Carros ObtenerMenorVendedor()
             {
-                return CarrosVendidos.OrderByDescending(c => c.Ventas).LastOrDefault();
+                return CarrosVendidos.OrderBy(c => c.Ventas).FirstOrDefault();
             }
 
             public int vendedores()
             {
                 return CarrosVendidos.Select(c => c.Vendedor).Distinct().Count();
+            }
+
+            public double CalcularPromedioVentas()
+            {
+                return CarrosVendidos.Average(c => c.Ventas);
+            }
+
+            public decimal CalcularMontoTotalVentas()
+            {
+                return CarrosVendidos.Sum(c => c.Ventas * c.Precio);
             }
         }
 
@@ -121,6 +135,11 @@
             {
                 return autosMasVendidosEnTodasLasSucursales.OrderByDescending(c => c.Ventas).FirstOrDefault();
             }
+
+            public decimal CalcularMontoTotalVentasEmpresa()
+            {
+                return autosMasVendidosEnTodasLasSucursales.Sum(c => c.Ventas * c.Precio);
+            }
         }
 
         static void Main(string[] args)
@@ -172,7 +191,10 @@
                 case 8:
                     promedioGeneralVentasEmpresa();
                     break;
-				default:
+                case 9:
+                    montoTotalVentasEmpresa();
+                    break;
+                default:
                     Console.WriteLine("\nSaliendo del sistema...");
                     return;
             }
@@ -278,48 +300,57 @@
             volver();
         }
 
-		static void promedioVentasPorSucursal()
-		{
-			Console.Clear();
-			var sucursales = new List<VenAutos>
-	        {
-	        	new Sucursal_Caracas(),
-	        	new Sucursal_Maracaibo(),
-	        	new Sucursal_Barcelona(),
-	        	new Sucursal_Merida()
-	        };
+        static void promedioVentasPorSucursal()
+        {
+            Console.Clear();
+            var sucursales = new List<VenAutos>
+            {
+                new Sucursal_Caracas(),
+                new Sucursal_Maracaibo(),
+                new Sucursal_Barcelona(),
+                new Sucursal_Merida()
+            };
 
-			foreach (var sucursal in sucursales)
-			{
-				var promedio = sucursal.CarrosVendidos.Average(c => c.Ventas);
-				Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
-			}
-			volver();
-		}
+            foreach (var sucursal in sucursales)
+            {
+                var promedio = sucursal.CalcularPromedioVentas();
+                Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
+            }
+            volver();
+        }
 
-		static void promedioGeneralVentasEmpresa()
-		{
-			Console.Clear();
-			var totalVentas = CarrosDisponibles.Sum(c => c.Ventas);
-			var totalCarros = CarrosDisponibles.Count;
-			var promedio = (double)totalVentas / totalCarros;
-			Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
-			volver();
-		}
+        static void promedioGeneralVentasEmpresa()
+        {
+            Console.Clear();
+            var totalVentas = CarrosDisponibles.Sum(c => c.Ventas);
+            var totalCarros = CarrosDisponibles.Count;
+            var promedio = (double)totalVentas / totalCarros;
+            Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
+            volver();
+        }
 
-		static void volver()
-		{
-			Console.Write("\n¿Desea Volver al menú de opciones? S/N: ");
-			char volver = char.Parse(Console.ReadLine());
+        static void montoTotalVentasEmpresa()
+        {
+            Console.Clear();
+            var todasLasSucursales = new TodasLasSucursales();
+            var montoTotal = todasLasSucursales.CalcularMontoTotalVentasEmpresa();
+            Console.WriteLine($"El monto total de ventas de la empresa es de: {montoTotal:C}");
+            volver();
+        }
 
-			if (char.ToUpper(volver) == 'S')
-			{
-				menu();
-			}
-			else
-			{
-				return;
-			}
-		}
-	}
+        static void volver()
+        {
+            Console.Write("\n¿Desea Volver al menú de opciones? S/N: ");
+            char volver = char.Parse(Console.ReadLine());
+
+            if (char.ToUpper(volver) == 'S')
+            {
+                menu();
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 }
