@@ -50,7 +50,7 @@ namespace VenAutos
 
             //Se hace la lectura de los elementos dentro de la lista.
             public abstract List<Carros> CarrosVendidos { get; }
-            
+
             public Carros ObtenerAutoMasVendido()
             {
                 return CarrosVendidos.OrderByDescending(c => c.Ventas).FirstOrDefault();
@@ -311,18 +311,13 @@ namespace VenAutos
         static void promedioVentasPorSucursal()
         {
             Console.Clear();
-            var sucursales = new List<VenAutos>
-            {
-                new Sucursal_Caracas(),
-                new Sucursal_Maracaibo(),
-                new Sucursal_Barcelona(),
-                new Sucursal_Merida()
-            };
+            var sucursales = CarrosDisponibles.GroupBy(c => c.Sucursal);
 
             foreach (var sucursal in sucursales)
             {
-				var promedio = (int)Math.Round(sucursal.CarrosVendidos.Average(c => c.Ventas));
-				Console.WriteLine($"El promedio de ventas en {sucursal.Nombre} es de: {promedio} ventas por carro.");
+				var promedio = Math.Round(sucursal.Average(c => c.Ventas));
+                var promedioPrecio = (sucursal.Average(c => c.Precio));
+				Console.WriteLine($"El promedio de ventas en {sucursal.Key} es de: {promedio} ventas por carro. \n El promedio del precio de los carros en {sucursal.Key} es {promedioPrecio}.");
             }
             volver();
         }
@@ -331,9 +326,12 @@ namespace VenAutos
         {
             Console.Clear();
             var totalVentas = CarrosDisponibles.Sum(c => c.Ventas);
+            var totalVentasPrecio = CarrosDisponibles.Sum(c => c.Precio);
             var totalCarros = CarrosDisponibles.Count;
 			var promedio = (int)Math.Round((double)totalVentas / totalCarros);
+            var promedioPrecio = Math.Round((double)totalVentasPrecio / totalCarros);
 			Console.WriteLine($"El promedio general de ventas de la empresa es de: {promedio} ventas por carro.");
+            Console.WriteLine($"El promedio general de ventas por el precio de la empresa es de: {promedioPrecio} de ventas por carro.");
             volver();
         }
 
