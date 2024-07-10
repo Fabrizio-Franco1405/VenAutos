@@ -26,3 +26,4 @@ C:\Users\Usuario\source\repos\VenAutos\obj\Debug\net8.0\refint\Practicas.dll
 C:\Users\Usuario\source\repos\VenAutos\obj\Debug\net8.0\Practicas.pdb
 C:\Users\Usuario\source\repos\VenAutos\obj\Debug\net8.0\Practicas.genruntimeconfig.cache
 C:\Users\Usuario\source\repos\VenAutos\obj\Debug\net8.0\ref\Practicas.dll
+C:\Users\Usuario\source\repos\VenAutos\obj\Debug\net8.0\Practicas.sourcelink.json
